@@ -49,6 +49,15 @@ body {
     text-align: left;  
 }
 
+/* Indent List Items (there is probably a smarter way to do it) */
+.container ol {
+  margin: 0 0 0 50px;
+}
+
+.container ul {
+  margin: 0 0 0 50px;
+}
+
 /* Header*/
 header {
   background-color: #333;  
