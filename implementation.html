@@ -87,7 +87,8 @@
       In order to speed up access to the individual worlds are stored in a dictionary with the values of x and y being the key. 
       Then to apply public announcements is trivial, as we have already translated the logic statement into a function that returns a boolean.
       This means that each world is evaluated using the function and only worlds in which the announcement is true are kept.
-      To evaluate whether a statement is true or false, we also first translate the logic statement into a function and then we test for the whole model or the specified whether the function returns true and return the result of that.
+      To evaluate whether a logic statement is true or false we first translate the logic statement into a function and then we use that function for either the whole model or a specified world.
+      If only one world is considered then the result of the generated function is the final result. If the whole model is considered then the generated function is applied to each world and has to be true in all worlds for the statement to be true.
     </p>
     <br>
     <h2>UI</h2>
