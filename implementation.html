@@ -38,8 +38,9 @@
   <main class="container">
     <h1>Implementation</h1>
     <p>
-      In order to create a program that can solve the Sum and Product Puzzle we first needed to translate english sentences into logic sentences, this was done by hand as creating a program that can translate natural language to logic statements is out of the scope of this project.
-      In order to implement this solver we decided to use Python as it is easily readable and was the best know programming language in the group as a whole.
+      In order to create a program that can solve the Sum and Product Puzzle, we first needed to translate English sentences into logic sentences. 
+      This was done by hand as creating a program that can translate natural language to logic statements is out of the scope of this project.
+      In order to implement this solver, we decided to use Python as it is easily readable and was the best known programming language within the group as a whole.
       For clarification purposes we decided to divide the task into three parts.
     </p>
     <br>
@@ -51,9 +52,11 @@
     <br>
     <h2>Translation</h2>
     <p>
-        In order to translate the logic statements to python functions, we created a compiler that compiles from language to the other using a compiler compiler library, namely Python Lex-Yacc (PLY).
+        In order to translate the logic statements to python functions, we created a compiler that compiles from language to the other using a compiler library, namely Python Lex-Yacc (PLY).
         Using this library we created a lexer, which is tokenizing the inpunt into atoms and operators. These tokens are then given to the parser which is creating python code that is equivalent in function to the logic statement.
         This is the grammar the parser is using to parse valid logic statements:
+        <br>
+        <br>
         <ul>
           <li>function : formula</li>
           <li>formula : formula AND formula</li>
@@ -68,25 +71,31 @@
           <li>formula : KNOWLEDGE GENERAL_ATOM </li>
           <li>formula : KNOWLEDGE_EVERYONE formula </li>
         </ul>
-
-        In this grammar capatilized words are terminals and can not be expanded further, while non-capitalized worda are non-terminals and therefore can be replaced with the right-hand side of one of the rules.
-        Using these rules all for this parser recognizable logic statements can be constructed.
-        Atoms in this grammar are one of the variables x or y followed by the number of that variable, which means that this variable should have that number to be true. General atoms can only be used with the knowledgde operator and are indication that an agent knows the variable without havng to specify the exact value of the variable.
-
-    </p>
-
+        <br>
+        In this grammar capatilized words are terminals and can not be expanded further, while non-capitalized words are non-terminals 
+        and therefore can be replaced with the right-hand side of one of the rules.
+        Using all of these rules, the parser isable to construct recognizable logic statements.
+        Atoms in this grammar are one of the variables x or y followed by the number of that variable, 
+        which means that this variable should have that number to be true. General atoms can only be used with the knowledge operator and 
+        are indication that an agent knows the variable without having to specify the exact value of the variable.
+      </p>
+    <br>
     <h2>Solving</h2>
     <p>
-      To solve the puzzle itself we created a class that will generate all possible worlds with each world having a different value for x and/or y. Further the relations between the worlds for the two agents s and p are added by checking which worlds have the same sum or product.
-      In order to speed up access to individual access the worlds are stored in a dictionary with the values of x and y being the key. Then to apply public announcements is trivial as we alraedy translated the logic statement into a function that returns a boolean which means that each world is evaluated using the function and only worlds in which the announcement is true are kept.
-      To be evaluate whether a statement is true or false we also first translate the logic statement into a function and then we test for the whole model or the specified whether the function returns true and return the result of that.
+      To solve the puzzle itself, we created a class that will generate all possible worlds with each world having a different value for x and/or y. 
+      Further the relations between the worlds for the two agents s and p are added by checking which worlds have the same sum or product.
+      In order to speed up access to the individual worlds are stored in a dictionary with the values of x and y being the key. 
+      Then to apply public announcements is trivial, as we have already translated the logic statement into a function that returns a boolean.
+      This means that each world is evaluated using the function and only worlds in which the announcement is true are kept.
+      To evaluate whether a statement is true or false, we also first translate the logic statement into a function and then we test for the whole model or the specified whether the function returns true and return the result of that.
     </p>
-
+    <br>
     <h2>UI</h2>
     <p>
-      We have decide to use the console as an user interface due to the simplicity and the puzzle not demanding more complex visualization. 
-      Though with that choice we have some restriction especially with special symbols therefore we have decided to have '-' be negation, '>' the arrow, '=' the bidirectional arrow, '&' is and and '|' is or.
-      Furthermore, we have the operators knowledge operators K and E, with K being either followed by a lowercase p or s which indicate the agent, x and y followed by a number without a space indicate that this variable having the number is true.
+      We have decided to use the console as an user interface due to the simplicity and the puzzle not demanding more complex visualization. 
+      Though with that choice we have some restriction especially with special symbols. 
+      Therefore we have decided to have '-' be negation, '>' the arrow, '=' the bidirectional arrow, '&' is conjunction and '|' is disjunction.
+      Furthermore, we have the knowledge operators K and E, with K being either followed by a 'p' or 's' which indicate the agent, 'x' and 'y' followed by a number without a space indicate that this variable having the number is true.
 
     </p>
   </main>
