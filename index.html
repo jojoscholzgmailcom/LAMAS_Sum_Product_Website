@@ -37,35 +37,56 @@
   <main class="container">
     <h1>Introduction</h1>
     <p>
-    This project implements a riddle solver for the Sum and Product Puzzle, a logic puzzle
-    introduced by Hans Freudenthal in 1969. This riddle is also known as the Im-
-    possible Puzzle, as it seems to require more information to be solvable. Solving
-    this riddle is possible, although not easily.
-    The formulation of this riddle consists of the following:
-    There are two integers, such that 1 ≤ x ≤ y and x + y ≤ 100. We assume
-    that S and P are two mathematicians and consequently, perfect logicians. While
-    S only knows the sum x + y, P only knows the product x ∗ y. However, each of
-    them is aware of the setting described in this paragraph.
-    Considering that both S and P always tell the truth, the following conversation happens:
+    In this project, we will look at the Sum and Product Puzzle, a logic puzzle introduced by Hans Freudenthal in 1969. 
+    This riddle is also known as the Impossible Puzzle, as it seems to require more information to be solvable. 
+    At first glance, it may appear that the statements from the agents are not informative. 
+    By closer examination using epistemic logic, it turns out solving this riddle is in fact possible, although not easily. 
     </p>
     <br>
-    1. P says ”I do not know it.” <br>
-    2. S says ”I knew you didn’t.” <br>
-    3. P says ”I now know it.”  <br>
-    4. S says ”I now also know it.” <br>
+    The (translated) original formulation (Freudenthal, 1969) of this riddle consists of the following: 
     <br>
-    Determine x and y.
-    Our aim is to create a riddle solver which is able to provide a correct solution
-    to these kinds of puzzles. For now, we want to mainly focus on the Sum and
-    Product Puzzle for different input values. The puzzle involves advanced topics
-    of logic, as the (higher-order) knowledge changes after each public announce-
-    ment. For instance, the knowledge of S changes after the first statement from
-    P. Analyses of this kind must also be made by our solver. Furthermore, if time
-    allows, our solver may eventually be expanded with other mathematical riddles
-    or variations on the aforementioned puzzle. To be concise, the research question
-    is now formulated as follows: ’Can we create a program which solves the Sum
-    and Product Puzzle?’
+    <br>
+    <i>
+    <p style="margin-left:30px">
+      Agent A tells agent S and P the following statement: "I have chosen two whole integers x, y such that 1 < x < y and x+y ≤ 100. 
+      In a moment, I will inform S only of s = x + y, P of p = xy. These announcements remain private. However, you are required to calculate the pair (x, y)."
+      <br>
+      <br>
+      Agent A acts as said. The following conversation happens:
     </p>
+    <br>
+    <ul style="margin-left:60px">
+      1.	P says ”I do not know it.” 
+      <br>
+      2.	S says ”I knew you didn’t.” 
+      <br>
+      3.	P says ”I now know it.”
+      <br>
+      4.	S says ”I now also know it.”
+    </ul>
+    <br>
+    <p style="margin-left:30px"> Determine the pair (x, y). </p>
+    </i>
+    <br>
+    <p>
+    What Freudenthal (1969) did not explicitly mention in his original formulation was the assumption that S and P are two mathematicians and consequently, 
+    perfect logicians who always tell the truth. In our project, we will adopt this assumption. Therefore the announcements in the conversation are common knowledge. 
+    It now turns out that the statements by P and S are informative. As a result of announcement 1, it is for instance commonly known that the pair (x, y) = (3,5) is impossible. 
+    The values in the pair are prime numbers and if it was the case that (x, y) = (3,5) then P would have said "I do know it". 
+    This way, it is possible to eliminate different pairs after each public announcement such that they both know the correct answer.
+    </p>
+    <br>
+    <p>
+    We have developed a riddle solver which is able to provide a correct solution to this puzzle and some variations to this puzzle. 
+    This includes the Sum and Product Puzzle for different values, but also broader generalisations which you will see under 'variations'. 
+    The puzzle involves advanced topics of logic, as the (higher-order) knowledge changes after each public announcement. 
+    For instance, the knowledge of S changes after the first statement from P. Analyses of this kind can be made by our solver. 
+    We will make use of the public announcement logic and semantics as taught in the LAMAS-course. 
+    </p>
+    <br>
+    References: 
+    <br>
+    Freudenthal, H. (1969). Nieuw Archief voor Wiskunde, 3(17), 152
     
   </main>
 
