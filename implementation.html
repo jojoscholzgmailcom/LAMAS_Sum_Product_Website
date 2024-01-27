@@ -38,66 +38,108 @@
   <main class="container">
     <h1>Implementation</h1>
     <p>
-      In order to create a program that can solve the Sum and Product Puzzle, we first needed to translate English sentences into logic sentences. 
-      This was done by hand as creating a program that can translate natural language to logic statements is out of the scope of this project.
-      In order to implement this solver, we decided to use Python as it is easily readable and was the best known programming language within the group as a whole.
-      For clarification purposes we decided to divide the task into three parts.
+      To implement a solver for the Sum and Product Puzzle we decided to use the programming language Python as it has high abstraction and is therefore easily readable while also being decently performant.
+      <br>
+      To go from the original puzzle to a solution we decided to divide the task into 5 subtasks:
     </p>
     <br>
     <ol>
-      <li><b>Translation:</b> Compile logic statements to python functions.</li>
-      <li><b>Solving:</b> Model all worlds and apply the generated python functions as public statements.</li>
-      <li><b>UI:</b> How to show the user what is happening and what they can do.</li>
+      <li><b>Formalisation:</b> Formalise natural language to logic statements</li>
+      <li><b>Translation:</b> Translate logic statements to Python functions</li>
+      <li><b>Model Generation:</b> Generate all possible worlds and relations</li>
+      <li><b>Solving:</b> Apply the translated functions to the model</li>
+      <li><b>UI:</b> Interacting with the user</li>
     </ol>
+    <p>
+      Of these subtasks, we have decided to write a program that can do steps 2-5, while step 1 needs to be done by a human (see the Formalisation tab), as solving that task is out of the scope of this project.
+    </p>
     <br>
     <h2>Translation</h2>
     <p>
-        In order to translate the logic statements to python functions, we created a compiler that compiles from language to the other using a compiler compiler library, namely Python Lex-Yacc (PLY).
-        Using this library we created a lexer, which is tokenizing the inpunt into atoms and operators. These tokens are then given to the parser which is creating python code that is equivalent in function to the logic statement.
-        This is the grammar the parser is using to parse valid logic statements:
-        <br>
+      To translate the logic statements to Python functions, we created a custom compiler that compiles from one language to the other using the compiler-compiler library Python Lex-Yacc (PLY). This library allows for the definition of two different parts called the lexer and the parser. The lexer is responsible for tokenizing the input string, while the parser is responsible for reducing the tokens into grammar rules in a structured manner.
+    </p>
+    <h3>Lexer</h3>
+    <p>
+      In the lexer, we decide what characters are allowed in the input and how they should be tokenised. Given the UI that we are using we decided to stick to characters that are easily available on the keyboard. We therefore decided to change the logic operators into easily typeable characters, as seen below.
+      <br>
+      <br>
+      <ul>
+        <li>AND: &</li>
+        <li>OR: |</li>
+        <li>ARROW: ></li>
+        <li>BIARROW: =</li>
+        <li>NEGATION: -</li>
+        <li>KNOWLEDGE: K</li>
+        <li>KNOWLEDGE_EVERYONE: E</li>
+      </ul>
+      <br>
+      Further, we have defined the symbols for the agents to be s and p, with s standing for the agent that knows the sum and p for the agent that knows the product. They have to always follow the knowledge operator K, which means that only using the Knowledge operator without specifying the agent is illegal.
+      <br>
+      We have defined atoms for this language which indicate the value of one of the two unknown numbers x and y. The format of the atoms is the variable (x or y) followed by the number of that variable, so that means that if we want to say that x has the value 3 then x3 would be the correct atom to represent that.
+      <br>
+      Lastly, we have created a short version to make statements such as: “Agent P knows x and y” easier. You would have to create a very large disjunction of conjunctions in order to translate this as you need to cover every possible combination of values for x and y: “Kp(x2 & y3) | Kp(x2 & y4) | … | Kp(x2 & ym) | Kp(x3 & y4) | … | Kp (xn & ym) ” for all natural numbers n and m above 1 and whose sum is below 100 (at least for the original problem). The shorthand that we created allows the user to write “Kp(x & y)”, which is equivalent to the longer formula.
+      <br>
+      The tokenization of the input follows the rules below where the right side of the colon is the token and the left side is a regex expression that the input is matched to (parentheses are matched to a token with the name being the same token).
+      <ul>
+        <li>AND: &</li>
+        <li>OR: |</li>
+        <li>ARROW: ></li>
+        <li>BIARROW: =</li>
+        <li>NEGATION: -</li>
+        <li>KNOWLEDGE: K[ps]</li>
+        <li>KNOWLEDGE_EVERYONE: E</li>
+        <li>ATOM: [xy][0-9]+</li>
+        <li>ATOM_SHORTHAND: [xy]</li>
+        <li>(: (</li>
+        <li>): )</li>
+      </ul>
+    </p>
+    <h3>Parser</h3>
+    <p>
+      The parser uses the lexer that was described above to tokenize the input and uses the produced tokens to match them to a rule, which is then used to create a corresponding Python function. The grammar the parser is using to parse valid logic statements can be seen below, where the left-hand side is the rule name and the right-hand side is what will be matched.
+      <br>
         <br>
         <ul>
           <li>function : formula</li>
           <li>formula : formula AND formula</li>
           <li>formula : formula OR formula</li>
-          <li>formula : NEG formula</li>
+          <li>formula : NEGATION formula</li>
           <li>formula : formula ARROW formula</li>
           <li>formula : formula BIARROW formula</li>
           <li>formula : ATOM</li>
           <li>formula : ( formula ) </li>
-          <li>formula : KNOWLEDGE ( GENERAL_ATOM AND GENERAL_ATOM ) </li>
+          <li>formula : KNOWLEDGE ( ATOM_SHORTHAND AND ATOM_SHORTHAND ) </li>
           <li>formula : KNOWLEDGE formula </li>
-          <li>formula : KNOWLEDGE GENERAL_ATOM </li>
+          <li>formula : KNOWLEDGE ATOM_SHORTHAND </li>
           <li>formula : KNOWLEDGE_EVERYONE formula </li>
         </ul>
         <br>
-        In this grammar capatilized words are terminals and can not be expanded further, while non-capitalized words are non-terminals 
-        and therefore can be replaced with the right-hand side of one of the rules.
-        Using all of these rules, the parser isable to construct recognizable logic statements.
-        Atoms in this grammar are one of the variables x or y followed by the number of that variable, 
-        which means that this variable should have that number to be true. General atoms can only be used with the knowledge operator and 
-        are indication that an agent knows the variable without having to specify the exact value of the variable.
+        In this grammar, if a sequence of tokens matches one of the rules above the matching sequence of tokens is replaced with the name of the rule, which might allow for another reduction using a rule. In this form, all tokens are processed until the sequence is reduced to “function”, which indicates that the given input was a well-formed formula.
+        <br>
+        To construct Python functions using these rules we take advantage of the fact that Python is an interpreted language which means that as long as we have a string with proper Python syntax we can easily execute it and create a runnable function. 
+        The function is given two parameters, first the current world and secondly a list of all worlds.
+        <br>
+        Given all of this, the propositional logic operators are fairly easy to implement as Python already has “and”, “or” and “not” and therefore all of these operators are trivially translated and the other propositional logic operators can be represented in terms of these operators.
+        <br>
+        The atoms such as x3 can easily be represented as “x == 3” where x is the x of the current world given as a parameter to the function.
+        <br>
+        For the two knowledge operators, we can just create a function out of the inner formula and then determine all connected worlds given the knowledge operator and call the function of the inner formula for each of the connected worlds and will then only return true if the inner function returns true for all worlds.
       </p>
+    <br>
+    <h2>Model Generation</h2>
+    To create the Kripke model for the puzzle the program needs all pre-conditions such as that x is smaller than y and that the sum of the two numbers is below or equal to 100 as a Python function, this needs to be done by hand. Further, the program also needs the upper and lower bounds of what x and y can be.
+    <br>
+    To create the worlds all possible combinations of x and y between the two bounds with inclusive ends are generated. Then for every world, it is checked if all preconditions are met and then the world is added to a dictionary of worlds with the values of x and y being the key and a world object being the value. Further, the sum and product of x and y are calculated and the pair of x and y are placed into two dictionaries one where the product is the key and the other where the sum is the key, the value of both dictionaries is the set of worlds whose product/sum corresponds to the value of the key.
+    <br>
+    Then after all valid worlds are generated the program iterates over all worlds and adds the relations between worlds for both the sum as well as the product agent, this is done by using the previously created dictionaries. As the current world is also in the set this means that reflexive relations are automatically created as well.
     <br>
     <h2>Solving</h2>
     <p>
-      To solve the puzzle itself, we created a class that will generate all possible worlds with each world having a different value for x and/or y. 
-      Further the relations between the worlds for the two agents s and p are added by checking which worlds have the same sum or product.
-      In order to speed up access to the individual worlds are stored in a dictionary with the values of x and y being the key. 
-      Then to apply public announcements is trivial, as we have already translated the logic statement into a function that returns a boolean.
-      This means that each world is evaluated using the function and only worlds in which the announcement is true are kept.
-      To evaluate whether a logic statement is true or false we first translate the logic statement into a function and then we use that function for either the whole model or a specified world.
-      If only one world is considered then the result of the generated function is the final result. If the whole model is considered then the generated function is applied to each world and has to be true in all worlds for the statement to be true.
-    </p>
+      To solve the puzzle, we can then just feed the model generation part the correct preconditions as well as boundaries, which gives us the initial model. Then the first public announcement will be translated using the parser into a Python function. This function can then be applied to every world and every world in which the function returns false will get deleted. This will then lead to a new and possibly smaller Kripke model. On which the next public announcement can be applied. After all public announcements are processed and applied to the model there should only be a single world left (at least if there is a unique solution). In the original Sum and Product puzzle the only world left has the values 4 for x and 13 for y.    </p>
     <br>
     <h2>UI</h2>
     <p>
-      We have decided to use the console as an user interface due to the simplicity and the puzzle not demanding more complex visualization. 
-      Though with that choice we have some restriction especially with special symbols. 
-      Therefore we have decided to have '-' be negation, '>' the arrow, '=' the bidirectional arrow, '&' is conjunction and '|' is disjunction.
-      Furthermore, we have the knowledge operators K and E, with K being either followed by a 'p' or 's' which indicate the agent, 'x' and 'y' followed by a number without a space indicate that this variable having the number is true.
-
+      We have decided to use the console as a user interface due to the simplicity and the puzzle not demanding more complex visualisation. Though with that choice we have some restrictions especially with special symbols (see Section Lexer).
     </p>
   </main>
 
