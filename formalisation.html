@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sum and Product Puzzle</title>
+  <script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+    </script>
+  <link rel="stylesheet" href="style.css"> 
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
+  <style>
+    body {
+      text-align: center;
+      max-width: 100%;
+    }
+    
+    header {
+      width:100%;
+      max-width:200ch
+    }
+
+    main {
+      margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1 style="color:#fff">Sum and Product Puzzle</h1>
+    <p style="text-align:center; color:#fff">
+      LAMAS Group 10 <br />
+      Jonas Scholz (s4287797) &nbsp; Bianca Craciun (s4272129) <br />
+      Jimmy Lin (s3792854) &nbsp; Abi Raveenthiran (s4010132)<br />
+    </p>
+    <br>
+    <nav>
+      <ul>
+        <li><a href="/LAMAS_Sum_Product_Website/">Introduction</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/implementation">Implementation</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/formalisation">Formalisation</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/variations">Variations</a></li>
+        <li><a style="color:#fff"  href="https://github.com/jojoscholzgmailcom/LAMAS_Sum_Product_Implementation">Repository</a></li>
+     </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Formalisation</h1>
+    <p>
+      In our adaptation of the sum-and-product puzzle, we have made a practical
+      simplification in the first statement of S: “I knew that”. We have decided to
+      do this in order to translate the 4 statements to epistemic logic without the
+      use of past tense. This was necessary as it is not possible to make statements
+      about the past in our use of dynamic epistemic logic, because we do not make
+      use of assignments. The simplification consist of eliminating P’s first statement
+      and the inclusion of direct speech in the first statement of S. This means that S
+      opens the conversation and makes the announcement: “I know that P does not
+      know x and y”.
+    </p>
+    <p>
+      We have decided to make the simplification in this manner, because we
+      think it best resembles Hans Freudenthal’s formulation of the puzzle (1969).
+      In this original version, we have first have P stating that he doesn’t know and
+      S responding that he already knew that. Our interpretation of this dialogue
+      excerpt is this implies that before P had said anything, in the initial state, S
+      was already aware that P couldn’t know the solution. So this knowledge is not a
+      result of P’s first statement. Therefore, we can turn this into a statement where
+      S announces directly that P doesn’t know, avoiding the use of past tense. As a
+      result, the conversation becomes the following:
+    </p>
+    <br>
+    <i>
+      <ul style="margin-left:30px">
+        1.	S: “I know that P does not know x and y.” 
+        <br>
+        2.	P: “I know x and y.” 
+        <br>
+        3.	S: “I also know x and y.”
+      </ul>
+      <br>
+    </i>
+    After the simplification, we can formalise the three statements to epistemic logic: 
+    <br>
+    <br>
+    <i>
+      <ul style="margin-left:30px">
+        1.	$K_S \neg K_P(x, y)$
+        <br>
+        2.	$K_P(x, y)$ 
+        <br>
+        3.	$K_S(x, y)$
+      </ul>
+      <br>
+    </i>
+    <p>
+      This allows us to establish an epistemic logical model $M_{(x,y)} = \langle D, \sim, V \rangle$, which describes the sum and product puzzle. 
+      Three agents have a role in the puzzle: A, S and P.  Since the only function of agent A is to ensure the rules and boundaries are common knowledge, 
+      the set of agents A is written as $A = \{S, P\}$. Recall that there are two boundaries for the integer pair (x,y): $1 < x < y$ and $x + y \leq 100$. 
+      The boundaries sets our domain, which we will define as $D = \{(x,y) \in \mathbb{N}^2 |  1 < x < y \text{ and } x + y \leq 100\}$. 
+      Similar to Van Ditmarsch, Ruan and Verbrugge (2008), we represent '$x=3$' as the atomic proposition of $x_3$ and '$y=3$' as the atomic proposition of '$y_3$',
+      resulting in the following set of atoms: $\{x_i | (i,j) \in D\} \cup \{y_j | (i,j) \in D\}$. 
+      Then the valuation $V$ is given by $V_{x_i} = \{(x,y) \in D | x=i\}$ and  $V_{y_i} = \{(x,y) \in D | y=j\}$. Finally, 
+      the accessibility relations $\sim_S$ and $\sim_P$, for agents S and P respectively, are $(x,y) \sim_S (x', y') \text{ iff } x+y=x'+y'$ and $(x,y) \sim_p (x', y') \text{ iff } xy=x'y'$ .
+    </p>
+    <br>
+    Using public announcement logic, the solution of the puzzle becomes the following:
+    $$    M_{(x,y)}, (4, 13) \models \langle K_S \neg K_P(x, y) \rangle \langle K_P(x, y) \rangle \langle K_S(x, y) \rangle \top $$
+    <p>
+      In words, this means that when the pair $(x,y) = (4,13)$ is the initial state
+      of the model, it is true after the three public announcements. Essentially, we
+      have formalised the solution in this way because it allows for flexibility when we
+      make variations with the formulation of the puzzle. It might be the case that,
+      when for instance changing boundaries, other solutions become feasible as well.
+      Using a different initial states that follows the truth of the three announcements
+      will then be sufficient. After all, the statement with public announcements does
+      not assert that the pair $(x,y) = (4,13)$ is an unique solution.
+    </p>
+    <p>
+      As we have mentioned in the introduction, each statement appears to be
+      very informative. In what follows, we provide an intuition for the manual steps
+      towards solving the puzzle. Basically the puzzle is solved using the method of
+      elimination. With each announcement, different pairs $(x,y)$ can be eliminated
+      because of the new information learned by the participants in the conversation.
+      For instance, after the first statement, we have that S knows P does not know
+      $x$ and $y$. Recall the unique property that prime numbers are only divisible by
+      one and themselves. From P does not know $(x,y)$, we know that x and y are
+      not a pair of prime numbers, for instance 2 and 7, because otherwise P would
+      have immediately deduced x and y from their product.
+      Furthermore, we now know that the product p not contain a prime number
+      greater than 50 because of the two boundaries $1 < x < y$ and $x + y ≤ 100$.
+      Moreover, S already knowing this provides the information that the sum is an
+      odd number. By Goldbach’s conjecture, we know that even numbers, excluding
+      2 and 4, are the sum of two primes. Therefore even sums are as well ruled out
+      from the set of possibly correct pairs.
+      Following from this first statement, P knows $x$ and $y$, implying that P knows
+      enough to rule out other possibly correct pairs $(x,y)$ that also resulted in $p$. For
+      2
+      example, if $p = 45 = 3x15 = 9x5$ would be the case, then P could eliminate
+      one of the two pairs knowing that the pair does not constitute an even sum. As
+      a result, S also knows $x$ and $y$, given that S knows that P knows $(x,y)$. We can
+      now reveal that the correct solution is the pair $(4,13)$.
+    </p>
+  </main>
+
+</body>
+</html>

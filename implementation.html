@@ -1,37 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sum and Product Puzzle</title>
-  <link rel="stylesheet" href="style.css"> 
-  <style>
-    body {
-      text-align: center;
-    }
-
-    main {
-      margin-top: 20px;
-    }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum and Product Puzzle</title>
+    <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+      </script>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://latex.now.sh/style.css">
+    <style>
+      body {
+        text-align: center;
+        max-width: none;
+      }
+  
+      main {
+        margin-top: 20px;
+      }
   </style>
-</head>
+  </head>
 <body>
 
   <header>
-    <div class="group-info">
-        <p>LAMAS Group 10</p>
-        <ul>
-          <li>Jonas Scholz (s4287797)  &nbsp;&nbsp;  Bianca Craciun (s4272129)</li>
-          <li>Jimmy Lin (s3792854)  &nbsp;&nbsp; Abi Raveenthiran (s4010132)</li>
-        </ul>
-    </div>
-    <h1 class="nav-title"><a href="#">Sum and Product Puzzle</a></h1>
+    <h1 style="color:#fff">Sum and Product Puzzle</h1>
+    <p style="text-align:center; color:#fff">
+      LAMAS Group 10 <br />
+      Jonas Scholz (s4287797) &nbsp; Bianca Craciun (s4272129) <br />
+      Jimmy Lin (s3792854) &nbsp; Abi Raveenthiran (s4010132)<br />
+    </p>
+    <br>
     <nav>
       <ul>
         <li><a href="/LAMAS_Sum_Product_Website/">Introduction</a></li>
         <li><a href="/LAMAS_Sum_Product_Website/implementation">Implementation</a></li>
-        <li><a href="https://github.com/jojoscholzgmailcom/LAMAS_Sum_Product_Implementation">Repository</a></li>
-      </ul>
+        <li><a href="/LAMAS_Sum_Product_Website/formalisation">Formalisation</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/variations">Variations</a></li>
+        <li><a style="color:#fff"  href="https://github.com/jojoscholzgmailcom/LAMAS_Sum_Product_Implementation">Repository</a></li>
+     </ul>
     </nav>
   </header>
 
@@ -53,7 +66,6 @@
     <p>
       Of these subtasks, we have decided to write a program that can do steps 2-5, while step 1 needs to be done by a human (see the Formalisation tab), as solving that task is out of the scope of this project.
     </p>
-    <br>
     <h2>Translation</h2>
     <p>
       To translate the logic statements to Python functions, we created a custom compiler that compiles from one language to the other using the compiler-compiler library Python Lex-Yacc (PLY). This library allows for the definition of two different parts called the lexer and the parser. The lexer is responsible for tokenizing the input string, while the parser is responsible for reducing the tokens into grammar rules in a structured manner.
@@ -80,6 +92,8 @@
       Lastly, we have created a short version to make statements such as: “Agent P knows x and y” easier. You would have to create a very large disjunction of conjunctions in order to translate this as you need to cover every possible combination of values for x and y: “Kp(x2 & y3) | Kp(x2 & y4) | … | Kp(x2 & ym) | Kp(x3 & y4) | … | Kp (xn & ym) ” for all natural numbers n and m above 1 and whose sum is below 100 (at least for the original problem). The shorthand that we created allows the user to write “Kp(x & y)”, which is equivalent to the longer formula.
       <br>
       The tokenization of the input follows the rules below where the right side of the colon is the token and the left side is a regex expression that the input is matched to (parentheses are matched to a token with the name being the same token).
+      <br>
+      <br>
       <ul>
         <li>AND: &</li>
         <li>OR: |</li>
@@ -125,7 +139,6 @@
         <br>
         For the two knowledge operators, we can just create a function out of the inner formula and then determine all connected worlds given the knowledge operator and call the function of the inner formula for each of the connected worlds and will then only return true if the inner function returns true for all worlds.
       </p>
-    <br>
     <h2>Model Generation</h2>
     To create the Kripke model for the puzzle the program needs all pre-conditions such as that x is smaller than y and that the sum of the two numbers is below or equal to 100 as a Python function, this needs to be done by hand. Further, the program also needs the upper and lower bounds of what x and y can be.
     <br>
@@ -136,7 +149,6 @@
     <h2>Solving</h2>
     <p>
       To solve the puzzle, we can then just feed the model generation part the correct preconditions as well as boundaries, which gives us the initial model. Then the first public announcement will be translated using the parser into a Python function. This function can then be applied to every world and every world in which the function returns false will get deleted. This will then lead to a new and possibly smaller Kripke model. On which the next public announcement can be applied. After all public announcements are processed and applied to the model there should only be a single world left (at least if there is a unique solution). In the original Sum and Product puzzle the only world left has the values 4 for x and 13 for y.    </p>
-    <br>
     <h2>UI</h2>
     <p>
       We have decided to use the console as a user interface due to the simplicity and the fact that the puzzle does not demand more complex visualization. However, this choice imposes some restrictions, especially with special symbols (see Lexer Section). On the other hand, it compensates by being verbose, offering step-by-step details for the user to maximize the experience. To achieve this, after the greeting message, the user is asked a series of questions (e.g., “Would you like to get a hint? (y/n):”, “Would you like to check if you are on the right track? (y/n):”, “Would you like to see the worlds that are still considered? (y/n):“, “Would you like to see the original Sum and Product riddle? (y/n):”, etc.), for which the possible answers are provided, as well. With this implementation, we offer the user the choice to experiment by either trying to solve the riddle by himself or by receiving some hints/help, understanding the mechanism behind the solving process, and designing new variations of the adapted riddle (more details in the Variations Tab). Regardless of the user’s answers to the questions, once the solving process is over, the final solution is presented to the user in the console, along with the option of trying again or ending the program.

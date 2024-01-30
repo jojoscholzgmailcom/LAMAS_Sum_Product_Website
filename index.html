@@ -4,33 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sum and Product Puzzle</title>
+  <script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+    </script>
   <link rel="stylesheet" href="style.css"> 
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
   <style>
     body {
       text-align: center;
+      max-width: none;
     }
 
     main {
       margin-top: 20px;
     }
-  </style>
+</style>
 </head>
 <body>
 
   <header>
-    <div class="group-info">
-        <p>LAMAS Group 10</p>
-        <ul>
-          <li>Jonas Scholz (s4287797)  &nbsp;&nbsp;  Bianca Craciun (s4272129)</li>
-          <li>Jimmy Lin (s3792854)  &nbsp;&nbsp; Abi Raveenthiran (s4010132)</li>
-        </ul>
-    </div>
-    <h1 class="nav-title"><a href="#">Sum and Product Puzzle</a></h1>
+    <h1 style="color:#fff">Sum and Product Puzzle</h1>
+    <p style="text-align:center; color:#fff">
+      LAMAS Group 10 <br />
+      Jonas Scholz (s4287797) &nbsp; Bianca Craciun (s4272129) <br />
+      Jimmy Lin (s3792854) &nbsp; Abi Raveenthiran (s4010132)<br />
+    </p>
+    <br>
     <nav>
       <ul>
         <li><a href="/LAMAS_Sum_Product_Website/">Introduction</a></li>
         <li><a href="/LAMAS_Sum_Product_Website/implementation">Implementation</a></li>
-        <li><a href="https://github.com/jojoscholzgmailcom/LAMAS_Sum_Product_Implementation">Repository</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/formalisation">Formalisation</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/variations">Variations</a></li>
+        <li><a style="color:#fff"  href="https://github.com/jojoscholzgmailcom/LAMAS_Sum_Product_Implementation">Repository</a></li>
      </ul>
     </nav>
   </header>
@@ -38,56 +51,62 @@
   <main class="container">
     <h1>Introduction</h1>
     <p>
-    In this project, we will look at the Sum and Product Puzzle, a logic puzzle introduced by Hans Freudenthal in 1969. 
-    This riddle is also known as the Impossible Puzzle, as it seems to require more information to be solvable. 
-    At first glance, it may appear that the statements from the agents are not informative. 
-    By closer examination using epistemic logic, it turns out solving this riddle is in fact possible, although not easily. 
+      In this project, we will look at the Sum and Product Puzzle, a logic puzzle first introduced by Hans Freudenthal (1969). 
+      This riddle appears to be impossible at first sight, as it seems to require more information to be solvable. 
+      At first glance, it may appear that the statements from the agents in the conversation are not informative. 
+      By closer examination using epistemic logic, it turns out solving this riddle is in fact possible, although not easily.
     </p>
     <br>
-    The (translated) original formulation (Freudenthal, 1969) of this riddle consists of the following: 
-    <br>
+    A translated original formulation (Van Ditmarsch, Ruan, & Verbrugge, 2008) of this riddle consists of the following:
     <br>
     <i>
     <p style="margin-left:30px">
-      Agent A tells agent S and P the following statement: "I have chosen two whole integers x, y such that 1 < x < y and x+y ≤ 100. 
-      In a moment, I will inform S only of s = x + y, P of p = xy. These announcements remain private. However, you are required to calculate the pair (x, y)."
+      A says to S and P: "I have chosen two integers x, y such that 1 < x < y and x+y ≤ 100. In a moment, I will inform S only of s = x + y, and P only of p = xy. 
+      These announcements remain private. However, you are required to determine the pair (x, y)."
       <br>
       <br>
-      Agent A acts as said. The following conversation happens:
+      He (Agent A) acts as said. The following conversation now takes place:
     </p>
     <br>
     <ul style="margin-left:60px">
-      1.	P says ”I do not know it.” 
+      1.	P says “I do not know it.” 
       <br>
-      2.	S says ”I knew you didn’t.” 
+      2.	S says “I knew you didn’t.” 
       <br>
-      3.	P says ”I now know it.”
+      3.	P says “I now know it.”
       <br>
-      4.	S says ”I now also know it.”
+      4.	S says “I now also know it.”
     </ul>
-    <br>
     <p style="margin-left:30px"> Determine the pair (x, y). </p>
     </i>
-    <br>
     <p>
-    What Freudenthal (1969) did not explicitly mention in his original formulation was the assumption that S and P are two mathematicians and consequently, 
-    perfect logicians who always tell the truth. In our project, we will adopt this assumption. Therefore the announcements in the conversation are common knowledge. 
-    It now turns out that the statements by P and S are informative. As a result of announcement 1, it is for instance commonly known that the pair (x, y) = (3,5) is impossible. 
-    The values in the pair are prime numbers and if it was the case that (x, y) = (3,5) then P would have said "I do know it". 
-    This way, it is possible to eliminate different pairs after each public announcement such that they both know the correct answer.
+      What Freudenthal (1969) did not explicitly mention in his original formulation was the assumption that S and P are two mathematicians and consequently, 
+      perfect logicians who always tell the truth. In our project, we will adopt this assumption and include another simplification aimed on avoiding 
+      the use of past tense in the conversation. We will elaborate on this in the formalisation section. 
     </p>
-    <br>
     <p>
-    We have developed a riddle solver which is able to provide a correct solution to this puzzle and some variations to this puzzle. 
-    This includes the Sum and Product Puzzle for different values, but also broader generalisations which you will see under 'variations'. 
-    The puzzle involves advanced topics of logic, as the (higher-order) knowledge changes after each public announcement. 
-    For instance, the knowledge of S changes after the first statement from P. Analyses of this kind can be made by our solver. 
-    We will make use of the public announcement logic and semantics as taught in the LAMAS-course. 
+      Moreover, the announcements in the conversation are common knowledge because of the construction in which A, S and P are all present in the conversation. 
+      It now turns out that the statements by P and S are very informative. In fact, they are sufficiently informative to solve the puzzle. 
+      As a result of announcement 1, it is for instance commonly known that the pair $(x, y) = (3,5)$ is impossible. 
+      The values in the pair are prime numbers and if it was the case that $(x, y) = (3,5)$ then P would have said "I do know it". 
+      This way, it is possible to eliminate different pairs after each public announcement such that they both know the correct answer. 
+      More detailed explanation about solving the puzzle can also be found under the <a href="/LAMAS_Sum_Product_Website/formalisation">formalisation section</a>.
+    </p>
+    <p>
+      We have developed a riddle solver which is able to provide a correct solution to this particular puzzle. 
+      In order to not immediately spoil the answer, our solver will have the possibility to provide hints, allowing the user to find the solution themselves. 
+      Additionally, we demonstrate different extensions to the solver by involving variations to the original puzzle. 
+      This includes the Sum and Product Puzzle for different values, but also broader generalisations which you will find under the <a href="/LAMAS_Sum_Product_Website/variations">variation section</a>. 
+      The puzzle involves advanced topics of epistemic logic, as the (higher-order) knowledge changes after each public announcement. 
+      For instance, the knowledge of S changes after the first statement from P. Analyses of this kind can be made by our solver. 
+      We will make use of the public announcement logic and semantics as taught in the LAMAS-course. 
     </p>
     <br>
     References: 
     <br>
-    Freudenthal, H. (1969). Nieuw Archief voor Wiskunde, 3(17), 152
+    1. Freudenthal, H. (1969). Nieuw Archief voor Wiskunde, 3(17), 152
+    <br>
+    2. Van Ditmarsch, H., Ruan, J., & Verbrugge, R. (2008). Sum and product in dynamic epistemic logic. Journal of Logic and Computation, 18(4), 563–588. 
     
   </main>
 

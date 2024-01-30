@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sum and Product Puzzle</title>
+  <script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+    </script>
+  <link rel="stylesheet" href="style.css"> 
+  <link rel="stylesheet" href="https://latex.now.sh/style.css">
+  <style>
+    body {
+      text-align: center;
+      max-width: 100%;
+    }
+    
+    header {
+      width:100%;
+      max-width:200ch
+    }
+
+    main {
+      margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1 style="color:#fff">Sum and Product Puzzle</h1>
+    <p style="text-align:center; color:#fff">
+      LAMAS Group 10 <br />
+      Jonas Scholz (s4287797) &nbsp; Bianca Craciun (s4272129) <br />
+      Jimmy Lin (s3792854) &nbsp; Abi Raveenthiran (s4010132)<br />
+    </p>
+    <br>
+    <nav>
+      <ul>
+        <li><a href="/LAMAS_Sum_Product_Website/">Introduction</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/implementation">Implementation</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/formalisation">Formalisation</a></li>
+        <li><a href="/LAMAS_Sum_Product_Website/variations">Variations</a></li>
+        <li><a style="color:#fff"  href="https://github.com/jojoscholzgmailcom/LAMAS_Sum_Product_Implementation">Repository</a></li>
+     </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Variations</h1>
+    <p>
+      In this part, the focus is on variations where there is a change in the logical statements. Therefore, the difference is based on the conversation between the agents, as follows:
+      <br>
+      <br>
+      <i>
+        <ul style="margin-left:30px">
+          1.	A asks S “What are the two numbers?" -  S replies “I don't know." 
+          <br>
+          2.	A asks P “What are the two numbers?" -  P replies “I don't know."
+          <br>
+          3.	S says “Now I know!”
+          <br>
+          4.	P says “Now I know!”
+        </ul>
+        <br>
+      </i>
+    </p>
+    <p>
+      As we can observe, in this case, the conversation consists of one more statement than in the riddle we adapted. 
+      Moreover, although the statement of higher-order logic, i.e., “ I know that P does not know x and y.”, is no longer present,
+      the two agents use higher-order logic while reasoning to find the two numbers, x and y.
+    </p>
+    <p>
+      To solve this riddle variation, we need to transform the above natural language statements into epistemic logic ones. 
+      This transition is similar to what has been shown for the adapted riddle, as seen below:
+    </p>
+    <br>
+    <i>
+      <ul style="margin-left:30px">
+        1.	$\neg K_S(x, y)$
+        <br>
+        2.	$\neg K_P(x, y)$
+        <br>
+        3.	$K_S(x, y)$
+        <br>
+        4. $K_P(x, y)$ 
+      </ul>
+      <br>
+    </i>
+    <p>
+      With these, we can now proceed with the program to solve this riddle. Since we are not solving the adapted riddle but a variant of it,
+      we need to specify the range of x and y (while the minimum value is 2, the maximum value is 99) and feed the program with the logical statements one by one.
+      After this, we reach the solution, $x = 3$ and $y = 4$, different from the adapted riddle ($x = 3$ and $y = 14$). 
+      The reasoning behind obtaining this unique solution is similar to what we have described for the adapted riddle.
+    </p>
+    <p>
+      In this paragraph, we will shift our attention to a new variation that is strongly related to the previous one. 
+      In this situation, the roles of S and P are reversed, leading to the following conversation, and the equivalent epistemic logic statements:
+    </p>
+    <br>
+    <i>
+      <ul style="margin-left:30px">
+        1.	A asks P “What are the two numbers?" -  P replies “I don't know."
+        <br>
+        2.	A asks S “What are the two numbers?" -  S replies “I don't know."
+        <br>
+        3.	P says “Now I know!”
+      </ul>
+      <br>
+      <ul style="margin-left:30px">
+        1.	$\neg K_P(x, y)$
+        <br>
+        2.  $\neg K_S(x, y)$
+        <br>
+        3.	$K_P(x, y)$
+        <br>
+        4. $K_S(x, y)$
+      </ul>
+    </i>
+    <p>
+      Following, the procedure resembles the one described for the previous riddle variation. However, the unique solution is now $x = 2$ and $y = 6$. 
+    </p>
+    <p>
+      After observing these two variations, it is obvious that both the epistemic logic statements and their order influence the solution of the puzzle. 
+      This impact results in different solutions for each riddle we considered, ranging from $x = 3$ and $y = 14$ to $x = 3$ and $y = 4$, and finally, $x = 2$ and $y = 6$. 
+      This effect is also visible when we extend the upper boundary of $x + y$, previously set at $100$ ($x + y \leq 100$). For instance, if we set this boundary to $200$, 
+      we end up with two more solutions for each variation (we did not consider here the adapted riddle), namely $(3, 4), (69, 96), (84, 84)$, and $(2, 6), (72, 92), (72, 98)$. 
+      Hence, it is visible that the solutions are different depending on the aspects described beforehand.
+    </p>
+  </main>
+
+</body>
+</html>
