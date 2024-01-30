@@ -84,57 +84,56 @@
       </p>
       <h3> Minimum value</h3>
       <p>
-        In this section we will look at how the minimum value of $x$ and $y$ will affect the solution of the puzzle. First, we can lower it to:
+        In this section we will look at how adjusting the minimum value of $x$ and $y$ will affect the solution of the puzzle. First, we can lower it to:
         $$0 < x < y$$
-        This leads to the following solutions:
-        $$(x,y) = (1,4) \vee (8,11) \vee (1,3) \vee (1,5) \vee (1,7) \vee (1,9) \vee (4,19) \vee (1,2)$$.
-        Lowering the minimum value for $x$ and $y$ makes the puzzle unsolvable just like increasing the upper sum bound does.
+        This gives the following results:
+        $$(x,y) = (1,4) \vee (8,11) \vee (1,3) \vee (1,5) \vee (1,7) \vee (1,9) \vee (4,19) \vee (1,2)$$
+        Lowering the minimum value for $x$ and $y$ makes the puzzle unsolvable. Similarly, increasing the upper sum bound gives the same result (unsolvable).
         If we increase the minimum value for $x$ and $y$ to:
         $$2 < x < y$$
-        We do not obtain any solution at all. However, if we also increase the upper sum bound so that the conditions of the puzzle are:
+        We observe that we do not obtain any solution at all. However, if we also increase the upper sum bound so that the conditions of the puzzle are:
         $$2 < x < y$$
         $$x + y \leq 125$$
-        There is a singular unique solution of $(x,y) = (13,16)$. This solution remains all the way up to:
+        It turns out that there is a singular unique solution of $(x,y) = (13,16)$. This solution remains all the way up to:
         $$x + y \leq 5044$$
-        We also tried to increase the minimum value for $x$ and $y$ further, but we did not have enough computational power to find out whether there is a solution or not with the following conditions:
+        We have also tried to increase the minimum value for $x$ and $y$ further, but we did not have enough computational power to find out whether there is a solution or not with the following conditions:
         $$3 < x < y$$
         $$x + y \leq 5000$$
       </p>
       <h3>Further explanation</h3>  
-      If you have paid close attention to all the solutions that were found by changing either the upper sum bound, minimum value of $x$ and $y$ or both. 
-      You might have noticed that a lot of these new found solutions also fit in the conditions of the original puzzle:
+      Paying close attention to all the solutions that were found by changing either the upper sum bound, minimum value of $x$ and $y$ or both, one might have noticed that a lot of these newly found solutions also fit with the conditions of the original puzzle:
       $$1 < x < y $$
       $$x + y \leq 100$$
-      Then why are these solutions not found in the original puzzle? This is due to the fact that when we change the conditions for $x$ and $y$, 
-      we also change the possible worlds that are to be considered. This then also has a subsequent effect on the elimination of worlds after each public announcement.
-      This can potentially lead to a different solution, eventhough this solution would fit within the original conditions of the puzzle.
+      Consequently, why are these solutions not found in the original puzzle? This has a straightforward explanation. When we change the conditions for $x$ and $y$, 
+      we also change the possible worlds that are to be considered. It then also has a subsequent effect on the elimination of worlds after each public announcement.
+      This can potentially lead to a different solution, even though this solution would fit within the original conditions of the puzzle.
 
     <hr>
     <h2>Logical statements</h2>
-      In this part, the focus is on variations where there is a change in the logical statements. Therefore, the difference is based on the conversation between the agents, as follows:
+      In this section, the focus is on variations where there is a change in the logical statements. Therefore, the difference is based on the conversation between the agents, which proceeds as follows:
       <br>
       <br>
       <i>
         <ul style="margin-left:30px">
-          1.	A asks S “What are the two numbers?" -  S replies “I don't know." 
+          1.	A asks S: 'What are the two numbers?' -  S replies: 'I don't know.' 
           <br>
-          2.	A asks P “What are the two numbers?" -  P replies “I don't know."
+          2.	A asks P: 'What are the two numbers?' -  P replies: 'I don't know.'
           <br>
-          3.	S says “Now I know!”
+          3.	S says: 'Now I know!'
           <br>
-          4.	P says “Now I know!”
+          4.	P says: 'Now I know!'
         </ul>
         <br>
       </i>
     </p>
     <p>
       As we can observe, in this case, the conversation consists of one more statement than in the riddle we adapted. 
-      Moreover, although the statement of higher-order logic, i.e., “ I know that P does not know x and y.”, is no longer present,
-      the two agents use higher-order logic while reasoning to find the two numbers, x and y.
+      Although the statement of higher-order logic, i.e., “ I know that P does not know $x$ and $y$.”, is no longer present,
+      the two agents use higher-order logic while reasoning to find the two numbers, $x$ and $y$.
     </p>
     <p>
-      To solve this riddle variation, we need to transform the above natural language statements into epistemic logic ones. 
-      This transition is similar to what has been shown for the adapted riddle, as seen below:
+      To solve this riddle variation, we need to transform the natural language statements from above into epistemic logic ones. 
+      This transition is similar to what has been shown for the adapted riddle, as we show below:
     </p>
     <br>
     <i>
@@ -151,22 +150,24 @@
     </i>
     <p>
       With these, we can now proceed with the program to solve this riddle. Since we are not solving the adapted riddle but a variant of it,
-      we need to specify the range of x and y (while the minimum value is 2, the maximum value is 99) and feed the program with the logical statements one by one.
+      we need to specify the range of $x$ and $y$ (while the minimum value is 2, the maximum value is 99) and feed the program with the logical statements one by one.
       After this, we reach the solution, $x = 3$ and $y = 4$, different from the adapted riddle ($x = 3$ and $y = 14$). 
       The reasoning behind obtaining this unique solution is similar to what we have described for the adapted riddle.
     </p>
     <p>
-      In this paragraph, we will shift our attention to a new variation that is strongly related to the previous one. 
-      In this situation, the roles of S and P are reversed, leading to the following conversation, and the equivalent epistemic logic statements:
+      In what follows, we will shift our attention to a new variation which is strongly related to the previous one. 
+      In this situation, the roles of S and P are reversed, leading to the following conversation and the equivalent epistemic logic statements:
     </p>
     <br>
     <i>
       <ul style="margin-left:30px">
-        1.	A asks P “What are the two numbers?" -  P replies “I don't know."
+        1.	A asks P: 'What are the two numbers?' -  P replies: 'I don't know.'
         <br>
-        2.	A asks S “What are the two numbers?" -  S replies “I don't know."
+        2.	A asks S: 'What are the two numbers?' -  S replies: 'I don't know.'
         <br>
-        3.	P says “Now I know!”
+        3.	P says: Now I know!'
+        <br>
+        4.	S says: Now I know!'
       </ul>
       <br>
       <ul style="margin-left:30px">
@@ -180,14 +181,14 @@
       </ul>
     </i>
     <p>
-      Following, the procedure resembles the one described for the previous riddle variation. However, the unique solution is now $x = 2$ and $y = 6$. 
+      Moreover, the procedure resembles the one described for the previous riddle variation. However, the unique solution is now $x = 2$ and $y = 6$. 
     </p>
     <p>
-      After observing these two variations, it is obvious that both the epistemic logic statements and their order influence the solution of the puzzle. 
+      After observing these two variations, it is obvious that both the epistemic logic statements and their order significantly influence the solution of the puzzle. 
       This impact results in different solutions for each riddle we considered, ranging from $x = 3$ and $y = 14$ to $x = 3$ and $y = 4$, and finally, $x = 2$ and $y = 6$. 
-      This effect is also visible when we extend the upper boundary of $x + y$, previously set at $100$ ($x + y \leq 100$). For instance, if we set this boundary to $200$, 
-      we end up with two more solutions for each variation (we did not consider here the adapted riddle), namely $(3, 4), (69, 96), (84, 84)$, and $(2, 6), (72, 92), (72, 98)$. 
-      Hence, it is visible that the solutions are different depending on the aspects described beforehand.
+      This effect is also visible when we extend the upper bound of $x + y$, which was previously set at $100$ ($x + y \leq 100$). For instance, if we set this boundary to $200$, 
+      we end up with two more solutions for each variation (we did not consider this particular adapation here), namely $(3, 4), (69, 96), (84, 84)$, and $(2, 6), (72, 92), (72, 98)$. 
+      Hence, it is visible that the solutions are different depending on the different aspects.
     </p>
     <br>
     References: 
