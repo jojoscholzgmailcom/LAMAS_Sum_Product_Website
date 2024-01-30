@@ -92,7 +92,7 @@ nav {
     color: #fff
   }
   .tab a, a:visited, a:hover, a:active {
-    color: inherit;
+    color: #fff;
   }
 
   .nav-title {
