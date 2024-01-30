@@ -56,10 +56,10 @@
   <main class="container">
     <h1>Implementation</h1>
     <p>
-      To implement a solver for the Sum and Product Puzzle we decided to use the programming language Python as it has high abstraction
-      and is therefore easily readable while also being decently performant.
+      To implement a solver for the Sum-and-Product puzzle, we decided to use the programming language Python. The advantages are the high abstraction
+      which is easily readable while also being decently performant.
       <br>
-      To go from the original puzzle to a solution we decided to divide the task into 5 subtasks:
+      To go from the original puzzle to a solution, we decided to divide the task into 5 subtasks:
     </p>
     <br>
     <ol>
@@ -70,20 +70,20 @@
       <li><b>UI:</b> Interacting with the user</li>
     </ol>
     <p>
-      Of these subtasks, we have decided to write a program that can do steps 2-5, while step 1 needs to be done by a human (<a href="/LAMAS_Sum_Product_Website/formalisation">see the Formalisation tab</a>), 
-      as solving that task is out of the scope of this project.
+      Out of these subtasks, we have decided to write a program that can perform steps 2-5. Still, step 1 needs to be done by a human (<a href="/LAMAS_Sum_Product_Website/formalisation">see the Formalisation tab</a>), 
+      as solving that task is beyond the scope of this project.
     </p>
     <h2>Translation</h2>
     <p>
       To translate the logic statements to Python functions, we created a custom compiler that compiles from one language to the other using the compiler-compiler library Python Lex-Yacc (PLY). 
-      This library allows for the definition of two different parts called the lexer and the parser. 
+      This library allows for the definition of two different parts, namely the lexer and the parser. 
       The lexer is responsible for tokenizing the input string, while the parser is responsible for reducing the tokens into grammar rules in a structured manner.
     </p>
     <h3 id="Lexer">Lexer</h3>
     <p>
       In the lexer, we decide what characters are allowed in the input and how they should be tokenised. 
       Given the UI that we are using we decided to stick to characters that are easily available on the keyboard. 
-      We therefore decided to change the logic operators into easily typeable characters, as seen below.
+      We therefore decided to change the logic operators into easily typeable characters, as displayed here:
     </p>
       <br>
       <ul>
@@ -96,16 +96,16 @@
         <li>KNOWLEDGE_EVERYONE: E</li>
       </ul>
       <p>
-      Further, we have defined the symbols for the agents to be s and p, with s standing for the agent that knows the sum and p for the agent that knows the product. 
+      Furthermore, we have defined the symbols for the agents to be s and p, with s standing for the agent that knows the sum and p for the agent that knows the product. 
       They have to always follow the knowledge operator K, which means that only using the Knowledge operator without specifying the agent is illegal.
-      We have defined atoms for this language which indicate the value of one of the two unknown numbers x and y. 
-      The format of the atoms is the variable (x or y) followed by the number of that variable, 
-      so that means that if we want to say that x has the value 3 then x3 would be the correct atom to represent that.
-      Lastly, we have created a short version to make statements such as: “Agent P knows x and y” easier. 
-      You would have to create a very large disjunction of conjunctions in order to translate this as you need to cover every possible combination of values for x and y: 
-      “Kp(x2 & y3) | Kp(x2 & y4) | … | Kp(x2 & ym) | Kp(x3 & y4) | … | Kp (xn & ym) ” for all natural numbers n and m above 1 and whose sum is below 100 (at least for the original problem). 
+      We have defined atoms for this language which indicate the value of one of the two unknown numbers $x$ and $y$. 
+      The format of the atoms is the variable ($x$ or $y$) followed by the number of that variable, 
+      so that means that if we want to say that $x$ has the value 3 then $x3$ would be the correct atom to represent that.
+      Lastly, we have created a short version to make statements such as: 'Agent P knows $x$ and $y$' easier. 
+      One would have to create a very large disjunction of conjunctions in order to translate this as you need to cover every possible combination of values for $x$ and $y$: 
+      “Kp(x2 & y3) | Kp(x2 & y4) | … | Kp(x2 & ym) | Kp(x3 & y4) | … | Kp (xn & ym) ” for all natural numbers $n$ and $m$ above 1 and whose sum is below 100 (at least for the original problem). 
       The shorthand that we created allows the user to write “Kp(x & y)”, which is equivalent to the longer formula.
-      The tokenization of the input follows the rules below where the right side of the colon is the token and 
+      The tokenization of the input follows the rules below, where the right side of the colon is the token and 
       the left side is a regex expression that the input is matched to (parentheses are matched to a token with the name being the same token).
       </p>
       <br>
@@ -125,7 +125,7 @@
     <h3>Parser</h3>
     <p>
       The parser uses the lexer that was described above to tokenize the input and uses the produced tokens to match them to a rule, 
-      which is then used to create a corresponding Python function. The grammar the parser is using to parse valid logic statements can be seen below, 
+      which is then used to create a corresponding Python function. The grammar the parser is using to parse valid logic statements can be found below, 
       where the left-hand side is the rule name and the right-hand side is what will be matched.
     </p>
     <ul>
@@ -150,20 +150,20 @@
         The function is given two parameters, first the current world and secondly a list of all worlds.
         Given all of this, the propositional logic operators are fairly easy to implement as Python already has “and”, “or” and “not” and 
         therefore all of these operators are trivially translated and the other propositional logic operators can be represented in terms of these operators.
-        The atoms such as x3 can easily be represented as “x == 3” where x is the x of the current world given as a parameter to the function.
+        Atoms such as x3 can easily be represented as “x == 3” where x is the x of the current world given as a parameter to the function.
         For the two knowledge operators, we can just create a function out of the inner formula and 
         then determine all connected worlds given the knowledge operator and call the function of the inner formula for each of 
         the connected worlds and will then only return true if the inner function returns true for all worlds.
       </p>
     <h2>Model Generation</h2>
     <p>
-      To create the Kripke model for the puzzle the program needs all pre-conditions such as that x is smaller than y and 
+      To create the Kripke model for the puzzle the program needs all pre-conditions such as that $x$ is smaller than $y$ and 
       that the sum of the two numbers is below or equal to 100 as a Python function, this needs to be done by hand. 
-      Further, the program also needs the upper and lower bounds of what x and y can be.
-    To create the worlds all possible combinations of x and y between the two bounds with inclusive ends are generated. 
-    Then for every world, it is checked if all preconditions are met and then the world is added to a dictionary of worlds with the values of x and y being the key and a world object being the value.
-    Further, the sum and product of x and y are calculated and the pair of x and y are placed into two dictionaries one where the product is the key and 
-    the other where the sum is the key, the value of both dictionaries is the set of worlds whose product/sum corresponds to the value of the key.
+      Further, the program also needs the upper and lower bounds of what $x$ and $y$ can be.
+    To create the worlds all possible combinations of $x$ and $y$ between the two bounds with inclusive ends are generated. 
+    Then for every world, it is checked if all preconditions are met and then the world is added to a dictionary of worlds with the values of $x$ and $y$ being the key and a world object being the value.
+    Further, the sum and product of $x$ and $y$ are calculated and the pair of $x$ and $y$ are placed into two dictionaries one where the product is the key and 
+    the other where the sum is the key, the value of both dictionaries is the set of worlds whose product or sum corresponds to the value of the key.
     Then after all valid worlds are generated the program iterates over all worlds and adds the relations between worlds for both the sum as well as the product agent, 
     this is done by using the previously created dictionaries. As the current world is also in the set this means that reflexive relations are automatically created as well.
     </p>
@@ -173,8 +173,8 @@
       Then the first public announcement will be translated using the parser into a Python function. 
       This function can then be applied to every world and every world in which the function returns false will get deleted. 
       This will then lead to a new and possibly smaller Kripke model. On which the next public announcement can be applied. 
-      After all public announcements are processed and applied to the model there should only be a single world left (at least if there is a unique solution). 
-      In the original Sum and Product puzzle the only world left has the values 4 for x and 13 for y.    
+      After all public announcements are processed and applied to the model, there should only be a single world left (at least if there is a unique solution). 
+      In the original Sum-and-Product puzzle the only world left has the values 4 for $x$ and 13 for $y$.    
     </p>
     <h2>UI</h2>
     <p>
