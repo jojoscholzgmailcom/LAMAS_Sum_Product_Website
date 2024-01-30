@@ -41,7 +41,7 @@ body {
 /* Container */
 .container {
     max-width: 800px;
-    margin: 50px auto 0;  
+    margin: 40px auto 40px auto;  
     padding: 20px;
     background-color: #f8f8f8;  
     border: 1px solid #ddd;  
@@ -98,6 +98,7 @@ nav {
     text-decoration: none;
     color: #fff;
   }
+  
 main {
   margin-top: 20px;
 }
